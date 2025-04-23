@@ -32,7 +32,21 @@ jobs:
       run: dotnet restore MonApiDotNet6/MonApiDotNet6.csproj  # Chemin vers le fichier .csproj
 
     - name: Build the project
-      run: dotnet build MonApiDotNet6/MonApiDotNet6.csproj --configuration Release
+      run: dotnet build MonApiDotNet6/MonApiDotNet6.csproj --configuration Release --output ./build_output
 
     - name: Run tests
-      run: dotnet test MonApiDotNet6/MonApiDotNet6.csproj --configuration Release
+      run: dotnet test MonApiDotNet6/MonApiDotNet6.csproj --configuration Release --output ./test_results
+
+    - name: Upload build artifacts
+      if: success()  # N'upload les artefacts que si la construction et les tests sont réussis
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifacts-${{ matrix.os }}-${{ matrix.dotnet-version }}
+        path: ./build_output  # Le dossier où les fichiers binaires sont générés
+
+    - name: Upload test results
+      if: success()  # N'upload les artefacts que si les tests sont réussis
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results-${{ matrix.os }}-${{ matrix.dotnet-version }}
+        path: ./test_results  # Le dossier où les résultats des tests sont générés
