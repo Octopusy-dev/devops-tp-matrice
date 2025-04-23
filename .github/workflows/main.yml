@@ -1,6 +1,12 @@
 name: .NET Core CI
 
 on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:  # Permet de déclencher le workflow manuellement
 
 jobs:
@@ -19,11 +25,14 @@ jobs:
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
 
+    - name: Navigate to the project directory
+      run: cd MonApiDotNet6
+
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore MonApiDotNet6/MonApiDotNet6.csproj  # Chemin vers le fichier .csproj
 
     - name: Build the project
-      run: dotnet build --configuration Release
+      run: dotnet build MonApiDotNet6/MonApiDotNet6.csproj --configuration Release
 
     - name: Run tests
-      run: dotnet test --configuration Release
+      run: dotnet test MonApiDotNet6/MonApiDotNet6.csproj --configuration Release
