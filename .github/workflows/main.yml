@@ -1,0 +1,29 @@
+name: .NET Core CI
+
+on:
+  workflow_dispatch:  # Permet de déclencher le workflow manuellement
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]   # Systèmes d'exploitation
+        dotnet-version: [6.0, 8.0]  # Versions de .NET à tester
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build the project
+      run: dotnet build --configuration Release
+
+    - name: Run tests
+      run: dotnet test --configuration Release
