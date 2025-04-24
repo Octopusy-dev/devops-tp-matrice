@@ -23,14 +23,14 @@ jobs:
         with:
           dotnet-version: '8.0'
 
-      - name: Navigate to the project directory
-        run: cd MonApiDotNet6
+      - name: Restore dependencies
+        run: dotnet restore MonApiDotNet6/MonApiDotNet6.csproj  # Chemin vers le fichier .csproj
         
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build MonApiDotNet6/MonApiDotNet6.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish MonApiDotNet6/MonApiDotNet6.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
