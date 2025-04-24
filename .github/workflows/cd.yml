@@ -1,0 +1,36 @@
+name: 02 - CD - MonApiDotNet6
+
+on:
+  workflow_run:
+    workflows: ["01 - CI - MonApiDotNet6"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dotnet-published-app
+          path: ./published
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1E1DB5481F0E4413A7EA93A2A5C3EC21 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E95C29E2012549D68BF2EEF55BE8B7C2 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3C0364261FB04A429C29CA82EC230B6E }}
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'your-app-name'
+          slot-name: 'Production'
+          package: ./published
