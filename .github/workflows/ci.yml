@@ -1,0 +1,36 @@
+name: 01 - CI - MonApiDotNet6
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET 6
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0'
+
+      - name: Restore dependencies
+        run: dotnet restore MonApiDotNet6/MonApiDotNet6.csproj
+
+      - name: Build
+        run: dotnet build MonApiDotNet6/MonApiDotNet6.csproj --configuration Release
+
+      - name: Publish
+        run: dotnet publish MonApiDotNet6/MonApiDotNet6.csproj -c Release -o ./publish
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-published-app
+          path: ./publish
