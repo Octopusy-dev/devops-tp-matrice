@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]   # Systèmes d'exploitation
-        dotnet-version: [6.0, 8.0]  # Versions de .NET à tester
+        dotnet-version: [8.0,9.0]  # Versions de .NET à tester
     steps:
     - name: Check out code
       uses: actions/checkout@v2
