@@ -6,7 +6,7 @@ name: 01 - CI / CD - your-app-name
 env:
   WEBAPP_NAME: my-webapp-api-net-8
   RESOURCE_GROUP: test
-  PLAN_NAME: Abonnement Azure 1
+  PLAN_NAME: ASP-test-bd08
 
 on:
   push:
