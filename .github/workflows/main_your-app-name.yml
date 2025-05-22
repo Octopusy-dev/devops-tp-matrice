@@ -26,11 +26,9 @@ jobs:
 
     steps:     
       - name: Login to Azure
-        uses: azure/login@v2
+        uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1E1DB5481F0E4413A7EA93A2A5C3EC21 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E95C29E2012549D68BF2EEF55BE8B7C2 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3C0364261FB04A429C29CA82EC230B6E }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Check if Web App exists
         id: check_webapp
