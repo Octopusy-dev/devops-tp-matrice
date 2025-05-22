@@ -47,5 +47,5 @@ jobs:
             --name "$WEBAPP_NAME" \
             --resource-group "$RESOURCE_GROUP" \
             --plan "$PLAN_NAME" \
-            --runtime "DOTNET|8.0" 
+            --runtime "DOTNETCORE:8.0"
           
